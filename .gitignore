@@ -1,0 +1,7 @@
+/notebook
+/old
+/.ipynb_checkpoints
+/.app_info
+/__pycache__
+/modules/__pycache__
+token_drive_v3.pickle
