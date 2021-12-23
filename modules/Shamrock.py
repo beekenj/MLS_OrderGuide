@@ -8,12 +8,33 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 import re
 import os
 import json
 
 def get_shamrock():
+
+    init_str = '''
+
+    Connecting to Shamrock
+
+    '''
+
+    success_str = '''
+
+    Shamrock: connection successful
+
+    '''
+
+    failure_str = '''
+
+    Shamrock: chromedriver exception
+
+    '''
+
+    print(init_str)
 
     url = 'https://www.shamrockorders.com/Catalog'
     user_input = '//*[@id="UserName"]'
@@ -33,9 +54,17 @@ def get_shamrock():
 
     chrome_options = Options()
     chrome_options.add_argument("--window-size=%s" % WINDOW_SIZE)
+    
+    ## Experimental
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+
+
     chrome_options.add_experimental_option("prefs",p)
 
-    serv = Service(executable_path='chrome/chromedriver')
+    serv = Service(executable_path=ChromeDriverManager().install())
 
     driver = webdriver.Chrome(service=serv, options=chrome_options)
 
@@ -59,10 +88,10 @@ def get_shamrock():
         time.sleep(5)
         driver.quit()
 
-        print('Shamrock: connection successful')
+        print(success_str)
         return True
     except:
-        print('Shamrock: chromedriver exception')
+        print(success_str)
         return False
 
 
